@@ -3,20 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #ff0000;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 10, 10, 10;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
 }
 
-.ad-banner {
-  width: 100%;
-  max-width: 728px;
-  margin: 20px auto;
-  text-align: center;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+}
+
+/* Custom Prose Overrides for Football News Style */
+.prose {
+  @apply text-gray-300 leading-relaxed;
+}
+
+.prose h2 {
+  @apply text-white font-bold text-2xl mt-8 mb-4 border-l-4 border-yellow-500 pl-4;
+}
+
+.prose p {
+  @apply mb-6;
+}
+
+.prose img {
+  @apply rounded-xl shadow-lg my-8;
+}
+
+.prose a {
+  @apply text-yellow-500 no-underline hover:underline font-medium;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-800 rounded-full hover:bg-gray-700 transition-colors;
 }

@@ -1,41 +1,47 @@
-import { fetchRssPosts } from '../lib/rss';
+import { fetchRssPosts } from '@/lib/rss';
 
 export default async function sitemap() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.com';
-  
-  const posts = await fetchRssPosts();
-  
+
+  // Fetch all posts for dynamic routes
+  let posts = [];
+  try {
+    posts = await fetchRssPosts();
+  } catch (error) {
+    console.error('Sitemap fetch error:', error);
+  }
+
   const postEntries = posts.map((post) => ({
     url: `${siteUrl}/news/${post.slug}`,
     lastModified: new Date(post.date),
-    changeFrequency: 'weekly',
-    priority: 0.8,
+    changeFrequency: 'daily',
+    priority: 0.7,
   }));
 
-  const staticPages = [
+  const staticEntries = [
     {
       url: siteUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
+      changeFrequency: 'hourly',
+      priority: 1.0,
     },
     {
       url: `${siteUrl}/articles`,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: `${siteUrl}/live`,
       lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 0.8,
+      changeFrequency: 'always',
+      priority: 0.9,
     },
     {
       url: `${siteUrl}/odds`,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 0.7,
+      priority: 0.8,
     },
     {
       url: `${siteUrl}/contact`,
@@ -45,5 +51,5 @@ export default async function sitemap() {
     },
   ];
 
-  return [...staticPages, ...postEntries];
+  return [...staticEntries, ...postEntries];
 }

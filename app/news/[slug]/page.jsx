@@ -1,27 +1,30 @@
-import { fetchRssPosts, fetchSingleRssPost } from '../../../lib/rss';
-import PostContent from '../../../components/PostContent';
+import { fetchRssPosts, fetchSingleRssPost, fetchRelatedPosts } from '@/lib/rss';
 import Image from 'next/image';
-import Link from 'next/link';
+import PostContent from '@/components/PostContent';
+import NewsCard from '@/components/NewsCard';
+import AdBanner from '@/components/AdBanner';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
-  const post = await fetchSingleRssPost(params.slug);
-  
+  const { slug } = params;
+  const post = await fetchSingleRssPost(slug);
+
   if (!post) {
     return {
-      title: 'Post Not Found',
+      title: 'Post Not Found - Goal24MM',
     };
   }
 
   return {
-    title: post.title,
+    title: `${post.title} - Goal24MM`,
     description: post.excerpt,
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      image: post.image,
-      url: post.link,
+      images: [post.image],
       type: 'article',
       publishedTime: post.date,
+      authors: [post.author],
     },
   };
 }
@@ -33,96 +36,69 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function SingleArticlePage({ params }) {
-  const post = await fetchSingleRssPost(params.slug);
+export default async function PostPage({ params }) {
+  const { slug } = params;
+  const post = await fetchSingleRssPost(slug);
 
   if (!post) {
-    return (
-      <div className="max-w-4xl mx-auto text-center py-12">
-        <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-        <p className="text-gray-400 mb-6">Sorry, the article you're looking for doesn't exist.</p>
-        <Link href="/" className="text-red-600 hover:text-red-500">
-          Back to Home
-        </Link>
-      </div>
-    );
+    notFound();
   }
 
-  const allPosts = await fetchRssPosts();
-  const relatedPosts = allPosts
-    .filter(p => p.slug !== post.slug)
-    .slice(0, 3);
+  const relatedPosts = await fetchRelatedPosts(slug, 3);
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <article className="container mx-auto px-4 py-8 max-w-4xl">
+      {/* Featured Image */}
+      <div className="relative aspect-video w-full mb-8 rounded-xl overflow-hidden shadow-2xl">
+        <Image
+          src={post.image}
+          alt={post.title}
+          fill
+          className="object-cover"
+          priority
+          sizes="(max-width: 768px) 100vw, 896px"
+        />
+      </div>
+
+      {/* Header */}
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        <div className="flex items-center justify-between text-gray-400 mb-6">
-          <div>
-            <span>{new Date(post.date).toLocaleDateString('en-GB', {
-              year: 'numeric',
-              month: 'long',
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight text-white">
+          {post.title}
+        </h1>
+        <div className="flex items-center text-gray-400 text-sm space-x-4 border-b border-gray-800 pb-4">
+          <time dateTime={post.date}>
+            {new Date(post.date).toLocaleDateString('en-GB', {
               day: 'numeric',
-            })}</span>
-            <span className="mx-2">|</span>
-            <span>Goal24MM</span>
-            {post.creator && (
-              <>
-                <span className="mx-2">|</span>
-                <span>By {post.creator}</span>
-              </>
-            )}
-          </div>
+              month: 'long',
+              year: 'numeric',
+            })}
+          </time>
+          <span>•</span>
+          <span className="text-yellow-500 font-medium">{post.author}</span>
         </div>
       </header>
 
-      {post.image && (
-        <div className="relative w-full h-96 rounded-lg overflow-hidden mb-8">
-          <Image 
-            src={post.image} 
-            alt={post.title} 
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 100vw"
-            priority
-          />
-        </div>
-      )}
+      {/* Content */}
+      <div className="prose prose-invert prose-yellow max-w-none mb-12">
+        <PostContent content={post.content} />
+      </div>
 
-      <PostContent content={post.content} />
-
+      {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="mt-12 pt-8 border-t border-gray-800">
-          <h3 className="text-2xl font-bold mb-6 border-l-4 border-red-600 pl-3">Related Articles</h3>
+        <section className="mt-16 border-t border-gray-800 pt-10">
+          <h2 className="text-2xl font-bold mb-8 border-l-4 border-yellow-500 pl-3 uppercase tracking-wider">Related Posts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedPosts.map(relatedPost => (
-              <Link key={relatedPost.slug} href={`/news/${relatedPost.slug}`}>
-                <div className="bg-gray-900 rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                  {relatedPost.image && (
-                    <div className="relative w-full h-40">
-                      <Image 
-                        src={relatedPost.image} 
-                        alt={relatedPost.title} 
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <h4 className="font-bold line-clamp-2 hover:text-red-600 transition-colors">
-                      {relatedPost.title}
-                    </h4>
-                    <p className="text-gray-400 text-sm mt-2">
-                      {new Date(relatedPost.date).toLocaleDateString('en-GB')}
-                    </p>
-                  </div>
-                </div>
-              </Link>
+            {relatedPosts.map((related) => (
+              <NewsCard key={related.slug} post={related} />
             ))}
           </div>
         </section>
       )}
-    </div>
+
+      {/* Bottom Ad Banner */}
+      <div className="mt-12">
+        <AdBanner position="bottom" />
+      </div>
+    </article>
   );
 }

@@ -1,58 +1,59 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'goal24mm.wordpress.com',
-        pathname: '/wp-content/**',
       },
       {
         protocol: 'https',
         hostname: 's0.wp.com',
-        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '0.gravatar.com',
       },
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
-        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.wp.com',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  headers: async () => {
+  experimental: {
+    scrollRestoration: true,
+  },
+  async headers() {
     return [
       {
-        source: '/:path*',
+        source: '/(.*)',
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
           },
-        ],
-      },
-      {
-        source: '/api/:path*',
-        headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=60, s-maxage=60',
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
           },
         ],
       },
     ];
-  },
-  rewrites: async () => {
-    return {
-      beforeFiles: [],
-      afterFiles: [],
-      fallback: [],
-    };
-  },
-  experimental: {
-    isrMemoryCacheSize: 52 * 1024 * 1024,
   },
 };
 

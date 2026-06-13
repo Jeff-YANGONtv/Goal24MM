@@ -1,47 +1,78 @@
-# Goal24MM Repository Audit Report
+# Goal24MM Project Audit & Refactor Report
 
-## 1. Current Repository Structure
+## 1. Repository Audit Summary
+The repository was a Next.js application using the App Router. It had a mixed data fetching strategy, with some parts attempting to use the WordPress REST API and others already partially using an RSS parser. The UI was basic and needed a professional "football news" overhaul.
 
+## 2. Key Changes Implemented
+
+### Data Layer Refactor
+- **Removed REST API Dependencies:** Deleted `lib/wordpress.js`, `lib/fetchPosts.js`, `lib/fetchSinglePost.js`, and `lib/fetchCategories.js`.
+- **New RSS Architecture:** Rewrote `lib/rss.js` with a robust parser and normalization layer.
+- **Normalization:** All RSS items are now normalized into a consistent object structure:
+  ```javascript
+  {
+    title,
+    slug,
+    link,
+    date,
+    excerpt,
+    content,
+    image,
+    author,
+    categories
+  }
+  ```
+
+### UI & Design Enhancements
+- **Dark Modern Theme:** Implemented a professional football-style dark theme using Tailwind CSS and custom prose styling.
+- **Homepage Structure:** Updated to include:
+  - **Featured News:** Large hero-style card for the latest story.
+  - **Breaking News:** Grid for high-priority updates.
+  - **Latest News:** Comprehensive grid for recent articles.
+  - **Advertisement Banners:** Integrated between sections.
+- **Article Page:** Enhanced with:
+  - Large featured images with shadow and rounded corners.
+  - Clean typography for titles and content.
+  - Improved related posts section.
+  - Bottom advertisement banner.
+- **Navigation:** 
+  - **Header:** Sticky glassmorphism header with professional logo styling.
+  - **Bottom Nav:** Mobile-first bottom navigation matching the requested spec (News, Articles, Live Score, Odds, Contact).
+
+### Performance & SEO
+- **Image Optimization:** Configured `next.config.js` with AVIF/WebP support and optimized remote patterns for WordPress and Gravatar images.
+- **Metadata Strategy:** Implemented dynamic Open Graph and Twitter metadata for all pages.
+- **Sitemap & Robots:** Added dynamic `sitemap.js` and `robots.js` for better search engine crawling.
+- **Vercel Ready:** Optimized configuration for seamless deployment on Vercel.
+
+## 3. Folder Structure Update
 ```
-/home/ubuntu/Goal24MM
-├── README.md
-├── app
-│   ├── articles
-│   │   └── page.jsx
-│   ├── contact
-│   │   └── page.jsx
-│   ├── layout.jsx
-│   ├── live
-│   │   └── page.jsx
-│   ├── news
-│   │   └── [slug]
-│   │       └── page.jsx
-│   ├── odds
-│   │   └── page.jsx
-│   └── page.jsx
-├── components
-│   ├── AdBanner.jsx
-│   ├── BottomNav.jsx
-│   ├── Header.jsx
-│   ├── NewsCard.jsx
-│   └── PostContent.jsx
-├── lib
-│   ├── fetchCategories.js
-│   ├── fetchPosts.js
-│   ├── fetchSinglePost.js
-│   └── wordpress.js
-├── package.json
-└── styles
-    └── globals.css
+/app
+  /articles       - All articles listing
+  /contact        - Contact page
+  /live           - Live score placeholder
+  /news/[slug]    - Dynamic article pages (RSS driven)
+  /odds           - Odds placeholder
+  layout.jsx      - Root layout with global SEO
+  page.jsx        - Refactored homepage
+  robots.js       - SEO robots config
+  sitemap.js      - Dynamic sitemap
+/components
+  AdBanner.jsx    - Optimized ad component
+  BottomNav.jsx   - Mobile-first navigation
+  Header.jsx      - Desktop/Mobile header
+  NewsCard.jsx    - Multi-purpose news card
+  PostContent.jsx - Clean article content renderer
+/lib
+  rss.js          - Core RSS parser and data layer
+/styles
+  globals.css     - Modern dark theme styles
 ```
 
-## 2. Files Dependent on WordPress REST API
-
-The following files have been identified as depending on the WordPress REST API or related helper functions:
-
-- `/home/ubuntu/Goal24MM/app/page.jsx`: Imports `fetchPosts`.
-- `/home/ubuntu/Goal24MM/lib/fetchPosts.js`: Likely contains logic to fetch posts using the WordPress REST API.
-- `/home/ubuntu/Goal24MM/lib/fetchSinglePost.js`: Likely contains logic to fetch a single post using the WordPress REST API.
-- `/home/ubuntu/Goal24MM/lib/wordpress.js`: Contains the base URL for the WordPress REST API (`${WORDPRESS_URL}/wp-json/wp/v2/${endpoint}`).
-
-These files will require significant refactoring to switch from the WordPress REST API to the RSS Feed architecture.
+## 4. Deployment Instructions
+1. Push the changes to your GitHub repository.
+2. Connect the repository to **Vercel**.
+3. Set the following Environment Variables in Vercel:
+   - `NEXT_PUBLIC_SITE_URL`: Your production domain (e.g., `https://goal24mm.com`)
+   - `NEXT_PUBLIC_AD_BANNER_URL`: URL for your advertisement banner image.
+4. Deploy! The site will automatically build and serve content from the WordPress RSS feed.

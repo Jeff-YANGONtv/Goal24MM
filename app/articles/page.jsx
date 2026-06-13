@@ -1,9 +1,9 @@
-import { fetchRssPosts } from '../../lib/rss';
-import NewsCard from '../../components/NewsCard';
+import { fetchRssPosts } from '@/lib/rss';
+import NewsCard from '@/components/NewsCard';
 
 export const metadata = {
   title: 'All Articles - Goal24MM',
-  description: 'Browse all football articles from Goal24MM.',
+  description: 'Browse all football articles and news on Goal24MM.',
 };
 
 export default async function ArticlesPage() {
@@ -15,23 +15,23 @@ export default async function ArticlesPage() {
   }
 
   return (
-    <div>
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">All Articles</h1>
-        <p className="text-gray-400">Browse all football articles and news from Goal24MM</p>
+    <main className="container mx-auto px-4 py-8">
+      <header className="mb-10">
+        <h1 className="text-3xl font-bold border-l-4 border-yellow-500 pl-3 uppercase tracking-wider">All Articles</h1>
+        <p className="text-gray-400 mt-2">Discover our full collection of football stories.</p>
       </header>
 
       {posts.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-400">No articles found.</p>
+        <div className="text-center py-20">
+          <p className="text-gray-500">No articles found.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map(post => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
             <NewsCard key={post.slug} post={post} />
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }
