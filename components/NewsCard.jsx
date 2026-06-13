@@ -13,6 +13,7 @@ export default function NewsCard({ post, featured = false }) {
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 1280px) 100vw, 1280px"
             priority
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 p-6 md:p-10 w-full">
@@ -48,6 +49,7 @@ export default function NewsCard({ post, featured = false }) {
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          loading="lazy"
         />
       </div>
       <div className="p-5 flex flex-col flex-grow">

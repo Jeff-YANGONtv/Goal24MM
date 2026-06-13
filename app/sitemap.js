@@ -1,7 +1,7 @@
 import { fetchRssPosts } from '@/lib/rss';
 
 export default async function sitemap() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.vercel.app';
 
   // Fetch all posts for dynamic routes
   let posts = [];

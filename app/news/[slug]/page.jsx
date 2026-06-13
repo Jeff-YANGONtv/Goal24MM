@@ -26,8 +26,17 @@ export async function generateMetadata({ params }) {
       publishedTime: post.date,
       authors: [post.author],
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+    },
   };
 }
+
+export const revalidate = 3600; // revalidate at most every hour
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const posts = await fetchRssPosts();
@@ -45,18 +54,50 @@ export default async function PostPage({ params }) {
   }
 
   const relatedPosts = await fetchRelatedPosts(slug, 3);
+  
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.vercel.app';
+  
+  // JSON-LD Structured Data
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: post.title,
+    image: [post.image],
+    datePublished: post.date,
+    dateModified: post.date,
+    author: [{
+      '@type': 'Person',
+      name: post.author,
+      url: siteUrl,
+    }],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Goal24MM',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
+    },
+    description: post.excerpt,
+  };
 
   return (
     <article className="container mx-auto px-4 py-8 max-w-4xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      
       {/* Featured Image */}
       <div className="relative aspect-video w-full mb-8 rounded-xl overflow-hidden shadow-2xl">
         <Image
           src={post.image}
           alt={post.title}
           fill
-          className="object-cover"
+          className="object-cover transition-opacity duration-300"
           priority
           sizes="(max-width: 768px) 100vw, 896px"
+          loading="eager"
         />
       </div>
 

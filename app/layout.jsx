@@ -2,6 +2,8 @@ import '@/styles/globals.css';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.vercel.app';
+
 export const metadata = {
   title: {
     default: 'Goal24MM - Latest Football News & Live Scores',
@@ -17,7 +19,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.com'),
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/',
   },
@@ -35,7 +37,7 @@ export const metadata = {
   openGraph: {
     title: 'Goal24MM - Latest Football News & Live Scores',
     description: 'Stay updated with the latest football news, live scores, odds, and predictions on Goal24MM.',
-    url: 'https://goal24mm.com',
+    url: siteUrl,
     siteName: 'Goal24MM',
     locale: 'en_GB',
     type: 'website',
@@ -51,7 +53,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
       <head>
-        <link rel="canonical" href="https://goal24mm.com" />
         <meta name="theme-color" content="#EAB308" />
       </head>
       <body className="antialiased bg-black text-white">
