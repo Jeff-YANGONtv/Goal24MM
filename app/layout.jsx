@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
 import { generateWebsiteSchema, generateOrganizationSchema } from '@/lib/seo';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.vercel.app';
@@ -88,6 +89,7 @@ export default function RootLayout({ children }) {
           {children}
         </div>
         <BottomNav />
+        <ServiceWorkerRegister />
         <footer className="hidden md:block bg-gray-900 border-t border-gray-800 py-10 mt-20">
           <div className="container mx-auto px-4 text-center">
             <p className="text-gray-500 text-sm">
