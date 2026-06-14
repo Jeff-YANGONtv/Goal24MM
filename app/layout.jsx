@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
+import { generateWebsiteSchema, generateOrganizationSchema } from '@/lib/seo';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://goal24mm.vercel.app';
 
@@ -10,7 +11,7 @@ export const metadata = {
     template: '%s | Goal24MM',
   },
   description: 'Stay updated with the latest football news, live scores, odds, and predictions on Goal24MM.',
-  keywords: ['football news', 'live scores', 'football odds', 'predictions', 'Goal24MM', 'Myanmar football'],
+  keywords: ['football news', 'live scores', 'football odds', 'predictions', 'Goal24MM', 'Myanmar football', 'sports news', 'football updates'],
   authors: [{ name: 'Goal24MM Team' }],
   creator: 'Goal24MM',
   publisher: 'Goal24MM',
@@ -41,19 +42,45 @@ export const metadata = {
     siteName: 'Goal24MM',
     locale: 'en_GB',
     type: 'website',
+    images: [
+      {
+        url: `${siteUrl}/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'Goal24MM - Latest Football News',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Goal24MM - Latest Football News & Live Scores',
     description: 'Stay updated with the latest football news, live scores, odds, and predictions on Goal24MM.',
+    creator: '@Goal24MM',
+    images: [`${siteUrl}/og-image.jpg`],
   },
 };
 
 export default function RootLayout({ children }) {
+  const websiteSchema = generateWebsiteSchema();
+  const organizationSchema = generateOrganizationSchema();
+
   return (
     <html lang="en" className="dark">
       <head>
         <meta name="theme-color" content="#EAB308" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body className="antialiased bg-black text-white">
         <Header />
