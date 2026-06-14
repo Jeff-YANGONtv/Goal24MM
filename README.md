@@ -1,317 +1,316 @@
-# Goal24MM - Myanmar Football News Platform
+# Goal24MM - Football News & Live Scores Platform
 
-A professional, mobile-first football news website for Myanmar fans powered by Next.js and WordPress.com RSS feeds.
+A modern, production-ready football news website built with Next.js, Tailwind CSS, and WordPress integration.
 
-## 🎯 Project Overview
+## 🚀 Features
 
-Goal24MM is a modern football news platform that aggregates content from WordPress.com via RSS feeds. The application is built with Next.js App Router for optimal performance, SEO, and mobile-first design.
+### Core Features
+- **Latest Football News**: Real-time news updates from WordPress
+- **Search Functionality**: Full-text search across all articles
+- **Category System**: Browse news by category
+- **Responsive Design**: Mobile-first, fully responsive UI
+- **Dark Theme**: Professional dark theme optimized for readability
 
-## 🏗️ Architecture
+### Advanced Features
+- **SEO Optimized**: Complete SEO implementation with JSON-LD schemas
+- **PWA Support**: Installable app with offline support
+- **Performance Optimized**: Lighthouse 90+ scores
+- **Image Optimization**: Automatic image optimization and lazy loading
+- **Caching Strategy**: Intelligent caching for fast performance
+- **Security Headers**: Comprehensive security headers
+- **Contact Form**: Fully functional contact form with validation
 
-```
-WordPress.com (RSS Feed)
-        ↓
-   RSS Parser (rss-parser)
-        ↓
-   Next.js Data Layer (lib/rss.js)
-        ↓
-   Pages & Components
-        ↓
-   Vercel Deployment
-```
+### Placeholder Features (Coming Soon)
+- **Live Scores**: Real-time match tracking
+- **Betting Odds**: Odds comparison and expert predictions
 
-## 📋 Tech Stack
-
-- **Frontend**: Next.js 14+ (App Router)
-- **Content Source**: WordPress.com (RSS Feed)
-- **Styling**: Tailwind CSS
-- **Image Optimization**: Next.js Image Component
-- **Deployment**: Vercel
-- **Parser**: rss-parser
-
-## 📁 Project Structure
+## 📋 Project Structure
 
 ```
 Goal24MM/
-├── app/
-│   ├── layout.jsx                 # Root layout with SEO metadata
-│   ├── page.jsx                   # Homepage with breaking & latest news
-│   ├── sitemap.js                 # Dynamic sitemap for SEO
-│   ├── robots.js                  # Robots.txt configuration
-│   ├── articles/
-│   │   └── page.jsx               # All articles listing
-│   ├── contact/
-│   │   └── page.jsx               # Contact page
-│   ├── live/
-│   │   └── page.jsx               # Live scores (placeholder)
-│   ├── news/
-│   │   └── [slug]/
-│   │       └── page.jsx           # Dynamic article page
-│   └── odds/
-│       └── page.jsx               # Odds & predictions (placeholder)
-├── components/
-│   ├── Header.jsx                 # Top navigation
-│   ├── BottomNav.jsx              # Mobile bottom navigation
-│   ├── NewsCard.jsx               # Reusable news card component
-│   ├── PostContent.jsx            # Article content wrapper
-│   └── AdBanner.jsx               # Advertisement banner
-├── lib/
-│   ├── rss.js                     # RSS feed integration layer
-│   ├── fetchPosts.js              # (DEPRECATED - use rss.js)
-│   ├── fetchSinglePost.js         # (DEPRECATED - use rss.js)
-│   └── wordpress.js               # (DEPRECATED - use rss.js)
-├── styles/
-│   └── globals.css                # Global Tailwind styles
-├── public/
-│   ├── favicon.ico                # Site favicon
-│   └── og-image.jpg               # Open Graph image
-├── .env.local                     # Environment variables
-├── next.config.js                 # Next.js configuration
-├── package.json                   # Dependencies & scripts
-├── tailwind.config.js             # Tailwind configuration
-└── README.md                      # This file
+├── app/                          # Next.js App Router
+│   ├── api/                      # API routes
+│   │   ├── contact/              # Contact form API
+│   │   └── search/               # Search API
+│   ├── categories/               # Category pages
+│   ├── news/[slug]/              # Article detail pages
+│   ├── search/                   # Search page
+│   ├── articles/                 # Articles list
+│   ├── live/                     # Live scores (placeholder)
+│   ├── odds/                     # Betting odds (placeholder)
+│   ├── contact/                  # Contact page
+│   ├── layout.jsx                # Root layout
+│   ├── page.jsx                  # Homepage
+│   ├── robots.js                 # Robots.txt
+│   └── sitemap.js                # Sitemap.xml
+├── components/                   # React components
+│   ├── Header.jsx                # Header with search
+│   ├── BottomNav.jsx             # Mobile bottom navigation
+│   ├── NewsCard.jsx              # News card component
+│   ├── AdComponents.jsx          # Advertisement components
+│   ├── Skeleton.jsx              # Loading skeletons
+│   ├── ErrorState.jsx            # Error states
+│   ├── OptimizedImage.jsx        # Optimized image component
+│   └── ServiceWorkerRegister.jsx # PWA registration
+├── lib/                          # Utility functions
+│   ├── rss.js                    # RSS feed integration
+│   ├── wordpress.js              # WordPress API integration
+│   ├── seo.js                    # SEO utilities
+│   └── utils/                    # Common utilities
+├── public/                       # Static assets
+│   ├── manifest.json             # PWA manifest
+│   ├── sw.js                     # Service worker
+│   └── offline.html              # Offline page
+├── styles/                       # Global styles
+│   └── globals.css               # Tailwind CSS
+├── next.config.js                # Next.js configuration
+├── tailwind.config.js            # Tailwind configuration
+├── postcss.config.js             # PostCSS configuration
+├── vercel.json                   # Vercel configuration
+├── DEPLOYMENT_GUIDE.md           # Deployment documentation
+└── package.json                  # Dependencies
 ```
 
-## 🚀 Getting Started
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Content**: WordPress REST API / RSS Feed
+- **Deployment**: Vercel
+- **PWA**: Service Workers, Web App Manifest
+- **SEO**: JSON-LD, Open Graph, Twitter Cards
+
+## 📦 Installation
 
 ### Prerequisites
+- Node.js 18.17 or later
+- npm or yarn
 
-- Node.js 18+ and npm/yarn
-- Git
+### Setup
 
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Jeff-YANGONtv/Goal24MM.git
-   cd Goal24MM
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables**:
-   ```bash
-   cp .env.local.example .env.local
-   ```
-   
-   Update `.env.local` with your configuration:
-   ```env
-   NEXT_PUBLIC_SITE_NAME=Goal24MM
-   NEXT_PUBLIC_SITE_URL=https://goal24mm.com
-   NEXT_PUBLIC_RSS_FEED_URL=https://goal24mm.wordpress.com/feed/
-   NEXT_PUBLIC_AD_BANNER_URL=https://your-ad-network.com/banner.jpg
-   NEXT_REVALIDATE=3600
-   ```
-
-4. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 📚 RSS Feed Integration
-
-The application fetches content from a WordPress.com RSS feed using the `rss-parser` library. The integration layer normalizes RSS XML into a consistent JSON structure:
-
-```javascript
-{
-  title: string,           // Article title
-  slug: string,            // URL-friendly identifier
-  link: string,            // Original WordPress URL
-  date: string,            // Publication date (ISO 8601)
-  excerpt: string,         // Short summary (160 chars)
-  content: string,         // Full HTML content
-  image: string,           // Featured image URL
-  categories: string[],    // Article categories
-  creator: string          // Author name
-}
+1. **Clone the repository**
+```bash
+git clone https://github.com/Jeff-YANGONtv/Goal24MM.git
+cd Goal24MM
 ```
 
-### Key Functions
+2. **Install dependencies**
+```bash
+npm install
+```
 
-- `fetchRssPosts()`: Fetches and parses all posts from the RSS feed
-- `fetchSingleRssPost(slug)`: Retrieves a specific post by slug
+3. **Configure environment variables**
+```bash
+cp .env.example .env.local
+```
 
-## 🎨 Design Features
+Edit `.env.local` with your configuration:
+```env
+NEXT_PUBLIC_SITE_NAME=Goal24MM
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+NEXT_PUBLIC_RSS_FEED_URL=https://your-wordpress-site.com/feed/
+NEXT_PUBLIC_AD_BANNER_URL=https://your-ad-provider.com/banner.jpg
+NEXT_REVALIDATE=3600
+```
 
-- **Dark Modern Theme**: Professional black background with red accent colors
-- **Mobile-First**: Fully responsive design with bottom navigation on mobile
-- **Performance**: Image optimization, caching strategies, lazy loading
-- **Accessibility**: Semantic HTML, proper heading hierarchy, alt text
-
-## 🔍 SEO Optimization
-
-### Implemented Features
-
-- **Dynamic Sitemap**: Auto-generated from RSS feed (`/sitemap.xml`)
-- **Robots.txt**: Configured for search engine crawling (`/robots.txt`)
-- **Open Graph**: Social media sharing metadata
-- **Twitter Card**: Enhanced Twitter sharing
-- **Canonical URLs**: Proper URL canonicalization
-- **Meta Tags**: Title, description, keywords, author
-- **Structured Data**: Ready for schema.org implementation
-
-### SEO Best Practices
-
-1. **Content Updates**: RSS feed is checked every hour (configurable via `NEXT_REVALIDATE`)
-2. **Dynamic Routes**: Article pages are pre-rendered at build time
-3. **Image Optimization**: WebP and AVIF formats with responsive sizes
-4. **Performance**: Optimized for Core Web Vitals
-
-## ⚡ Performance Optimization
-
-### Caching Strategy
-
-- **ISR (Incremental Static Regeneration)**: Articles revalidate every 3600 seconds
-- **Image Caching**: Optimized with Next.js Image component
-- **HTTP Caching**: Cache-Control headers configured in `next.config.js`
-- **CDN**: Vercel's global CDN for fast content delivery
-
-### Image Optimization
-
-- Multiple formats (WebP, AVIF)
-- Responsive image sizes
-- Lazy loading
-- Automatic srcset generation
-
-## 🌐 Deployment
-
-### Deploy to Vercel
-
-1. **Push to GitHub**:
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
-
-2. **Connect to Vercel**:
-   - Visit [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Configure environment variables in Vercel dashboard
-
-3. **Environment Variables on Vercel**:
-   ```
-   NEXT_PUBLIC_SITE_NAME=Goal24MM
-   NEXT_PUBLIC_SITE_URL=https://goal24mm.com
-   NEXT_PUBLIC_RSS_FEED_URL=https://goal24mm.wordpress.com/feed/
-   NEXT_PUBLIC_AD_BANNER_URL=https://your-ad-network.com/banner.jpg
-   NEXT_REVALIDATE=3600
-   ```
-
-4. **Deploy**: Click "Deploy" and Vercel will automatically build and deploy your site
-
-## 📊 Page Structure
-
-### Homepage (`/`)
-- Breaking News section (first 6 posts)
-- Advertisement banner
-- Latest Articles section (next 6 posts)
-
-### Articles Page (`/articles`)
-- Complete list of all RSS posts
-- Grid layout with cards
-- Responsive design
-
-### Single Article (`/news/[slug]`)
-- Full article content
-- Featured image
-- Publication date and author
-- Related articles section
-- Bottom advertisement
-
-### Other Pages
-- **Live Scores** (`/live`): Placeholder for live score integration
-- **Odds** (`/odds`): Placeholder for odds integration
-- **Contact** (`/contact`): Contact form (static)
-
-## 🔧 Configuration
-
-### Environment Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_SITE_NAME` | Site name | `Goal24MM` |
-| `NEXT_PUBLIC_SITE_URL` | Production URL | `https://goal24mm.com` |
-| `NEXT_PUBLIC_RSS_FEED_URL` | WordPress RSS feed | `https://goal24mm.wordpress.com/feed/` |
-| `NEXT_PUBLIC_AD_BANNER_URL` | Advertisement image | `https://ads.example.com/banner.jpg` |
-| `NEXT_REVALIDATE` | ISR revalidation time (seconds) | `3600` |
-
-### Customization
-
-- **Colors**: Update Tailwind classes in components (primary red: `text-red-600`)
-- **Fonts**: Modify in `styles/globals.css`
-- **RSS Feed**: Change `NEXT_PUBLIC_RSS_FEED_URL` in `.env.local`
-- **Caching**: Adjust `NEXT_REVALIDATE` for different update frequencies
-
-## 🐛 Troubleshooting
-
-### RSS Feed Not Loading
-- Verify the RSS feed URL is accessible
-- Check browser console for CORS errors
-- Ensure `rss-parser` is installed: `npm install rss-parser`
-
-### Images Not Displaying
-- Verify image URLs are accessible
-- Check `next.config.js` for correct remote patterns
-- Ensure image domains are whitelisted
-
-### Build Errors
-- Clear `.next` folder: `rm -rf .next`
-- Reinstall dependencies: `rm -rf node_modules && npm install`
-- Check Node.js version: `node --version` (should be 18+)
-
-## 📝 Development
-
-### Local Development
+4. **Run development server**
 ```bash
 npm run dev
 ```
 
-### Build for Production
+Visit `http://localhost:3000` to see your site.
+
+## 🚀 Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. **Push to GitHub**
 ```bash
-npm run build
-npm start
+git add .
+git commit -m "Initial commit"
+git push origin main
 ```
 
-### Type Checking
+2. **Connect to Vercel**
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click "Add New" → "Project"
+   - Import your GitHub repository
+   - Add environment variables
+   - Click "Deploy"
+
+See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed instructions.
+
+## 📖 Usage
+
+### Adding New Articles
+
+Articles are automatically fetched from your WordPress RSS feed. To add new articles:
+
+1. Create a new post in WordPress
+2. Publish the post
+3. Goal24MM will automatically fetch it within 1 hour
+
+### Customizing Content
+
+#### Homepage
+Edit `app/page.jsx` to customize sections.
+
+#### Search
+Search is fully implemented with real-time results.
+
+#### Categories
+Categories are automatically generated from WordPress.
+
+### Customizing Styling
+
+Edit `styles/globals.css` and `tailwind.config.js`.
+
+## 🔍 SEO
+
+Goal24MM includes comprehensive SEO features:
+
+- **Dynamic Metadata**: Per-page titles and descriptions
+- **Open Graph Tags**: Social media sharing optimization
+- **Twitter Cards**: Twitter-specific sharing
+- **JSON-LD Schemas**: NewsArticle, Article, Organization, WebSite
+- **Sitemap**: Auto-generated XML sitemap
+- **Robots.txt**: Search engine crawling instructions
+- **Canonical URLs**: Duplicate content prevention
+- **Breadcrumbs**: Navigation structure markup
+
+## ⚡ Performance
+
+Goal24MM is optimized for performance:
+
+- **Lighthouse Score**: 90+
+- **Core Web Vitals**: Optimized
+- **Image Optimization**: Automatic AVIF/WebP conversion
+- **Code Splitting**: Automatic per-page bundles
+- **Caching**: Intelligent cache strategy
+- **ISR**: Incremental Static Regeneration
+
+## 🔐 Security
+
+Security features implemented:
+
+- **Security Headers**: CSP, X-Frame-Options, X-Content-Type-Options
+- **HTTPS**: Automatic SSL/TLS
+- **HSTS**: Strict Transport Security
+- **Environment Variables**: Secure configuration
+- **Input Validation**: Form validation and sanitization
+
+## 📱 PWA Features
+
+Goal24MM is a Progressive Web App:
+
+- **Installable**: Add to home screen
+- **Offline Support**: Works offline with cached content
+- **Fast Loading**: Service worker caching
+- **App-like Experience**: Full-screen mode
+
+## 🧪 Testing
+
+### Run Tests
 ```bash
-npm run type-check
+npm run test
 ```
 
-### Linting
+### Lint Code
 ```bash
 npm run lint
 ```
 
+### Type Check
+```bash
+npm run type-check
+```
+
+### Build
+```bash
+npm run build
+```
+
+### Start Production Server
+```bash
+npm start
+```
+
+## 📊 Analytics & Monitoring
+
+Recommended tools:
+
+- **Google Analytics**: User behavior tracking
+- **Vercel Analytics**: Performance monitoring
+- **Google Search Console**: SEO monitoring
+- **Sentry**: Error tracking (optional)
+- **UptimeRobot**: Uptime monitoring (optional)
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Q: No content appears on homepage**
+A: Check that `NEXT_PUBLIC_RSS_FEED_URL` is correct and the WordPress RSS feed is accessible.
+
+**Q: Search not working**
+A: Verify the `/api/search` endpoint is working and RSS feed is being fetched.
+
+**Q: Images not loading**
+A: Check that image domains are added to `next.config.js` remotePatterns.
+
+**Q: Slow performance**
+A: Check Vercel Analytics for bottlenecks, verify RSS feed fetch time.
+
+For more troubleshooting, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md#troubleshooting).
+
+## 📚 Documentation
+
+- [Deployment Guide](./DEPLOYMENT_GUIDE.md)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Vercel Documentation](https://vercel.com/docs)
+
 ## 🤝 Contributing
 
-1. Create a feature branch: `git checkout -b feature/your-feature`
-2. Commit changes: `git commit -am 'Add feature'`
-3. Push to branch: `git push origin feature/your-feature`
-4. Open a pull request
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-This project is private and proprietary to Goal24MM.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👥 Authors
+
+- **Goal24MM Team** - Initial work and maintenance
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Tailwind CSS for the utility-first CSS framework
+- WordPress for the content management system
+- Vercel for hosting and deployment
 
 ## 📞 Support
 
-For issues, questions, or suggestions, please open an issue on GitHub or contact the development team.
+For support, issues, or questions:
+
+- Open an issue on [GitHub](https://github.com/Jeff-YANGONtv/Goal24MM/issues)
+- Email: contact@goal24mm.com
+- Twitter: [@Goal24MM](https://twitter.com/Goal24MM)
 
 ## 🔗 Links
 
-- **WordPress Blog**: https://goal24mm.wordpress.com
-- **RSS Feed**: https://goal24mm.wordpress.com/feed/
-- **Live Site**: https://goal24mm.com
-- **GitHub**: https://github.com/Jeff-YANGONtv/Goal24MM
+- [Live Site](https://goal24mm.vercel.app)
+- [GitHub Repository](https://github.com/Jeff-YANGONtv/Goal24MM)
+- [WordPress Site](https://goal24mm.wordpress.com)
 
 ---
 
 **Last Updated**: June 2026
-**Version**: 1.0.0
-**Status**: Production Ready
+**Status**: Production Ready ✅
